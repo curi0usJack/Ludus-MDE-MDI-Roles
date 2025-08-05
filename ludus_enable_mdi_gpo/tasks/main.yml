@@ -1,0 +1,9 @@
+---
+- name: Enabling Audit Settings for Microsoft Defender for Identity
+  ansible.windows.win_powershell:
+    script: |
+      Install-PackageProvider -Name NuGet -Force -Confirm:$false
+      Install-Module -Name DefenderForIdentity -Force -SkipPublisherCheck -Confirm:$false
+      Import-Module ActiveDirectory
+      Set-MDIConfiguration -Mode Domain -Configuration AdvancedAuditPolicyDCs,DomainObjectAuditing,NTLMAuditing -GpoNamePrefix "MDI" -Confirm:$false
+      gpupdate /force
